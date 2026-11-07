@@ -1,13 +1,17 @@
+com\nttdata\screens\SauceLabsCatalogScreen.class
 com\nttdata\steps\SauceLabsLoginSteps.class
 com\nttdata\hooks\Hooks.class
 com\nttdata\stepsdefinitions\AppConfigStepsDefs.class
+com\nttdata\steps\SauceLabsCatalogSteps.class
 com\nttdata\support\ScreenshotAttacher.class
 com\nttdata\screens\ApkInfoScreen.class
 com\nttdata\stepsdefinitions\SauceLabsStepDefs.class
 com\nttdata\steps\AppConfigSteps.class
+com\nttdata\driver\AppiumDriverManager.class
 com\nttdata\screens\BaseScreen.class
 com\nttdata\steps\ApkInfoSteps.class
 com\nttdata\screens\AppConfigScreen.class
+com\nttdata\stepsdefinitions\CarritoStepDefs.class
 com\nttdata\runners\CucumberTestSuite.class
 com\nttdata\screens\SauceLabsLoginScreen.class
 com\nttdata\stepsdefinitions\ApkInfoStepDefs.class

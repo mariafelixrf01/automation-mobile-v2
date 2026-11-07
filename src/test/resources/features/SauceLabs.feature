@@ -1,15 +1,15 @@
 # language: es
-@Smoke
-Característica: Validación del carrito de compras en la app de SauceLabs
+Característica: Inicio de sesion en Sauce Labs Sample App
 
-  Esquema del escenario: Validar agregar productos y actualizar el carrito
-    Dado que estoy en la aplicación de SauceLabs
-    Y valido que carguen correctamente los productos en la galeria
-    Cuando agrego <UNIDADES> del siguiente producto "<PRODUCTO>"
-    Then valido el carrito de compra actualice correctamente
+  Como usuario de la app movil de Sauce Labs
+  Quiero iniciar sesion con credenciales validas
+  Para acceder al catalogo de productos
 
-    Ejemplos:
-      | PRODUCTO                  | UNIDADES |
-      | Sauce Labs Backpack       | 1        |
-      | Sauce Labs Bolt - T-Shirt | 1        |
-      | Sauce Labs Bike Light     | 2        |
+  @SauceLabsLogin @Smoke
+  Escenario: Login exitoso con credenciales validas
+    Dado ingreso al aplicativo "saucelabs"
+    Cuando ingreso el usuario "standard_user"
+    Y ingreso la clave "secret_sauce"
+    Y hago clic en LOGIN
+    Entonces valido el login OK
+    Y cierro el aplicativo "com.swaglabsmobileapp"

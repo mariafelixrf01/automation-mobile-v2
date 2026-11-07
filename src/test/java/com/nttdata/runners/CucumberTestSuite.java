@@ -18,7 +18,7 @@ import org.junit.runner.RunWith;
                 "com.nttdata.stepsdefinitions",
                 "com.nttdata.hooks"
         },
-        tags = "@Smoke",
+        tags = "@carrito",
         plugin = {
                 "pretty",
                 "html:target/cucumber-report.html",
@@ -27,5 +27,4 @@ import org.junit.runner.RunWith;
         monochrome = true
 )
 public class CucumberTestSuite {
-
 }

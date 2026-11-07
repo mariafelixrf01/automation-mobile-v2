@@ -1,13 +1,17 @@
+C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\driver\AppiumDriverManager.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\hooks\Hooks.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\runners\CucumberTestSuite.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\screens\ApkInfoScreen.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\screens\AppConfigScreen.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\screens\BaseScreen.java
+C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\screens\SauceLabsCatalogScreen.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\screens\SauceLabsLoginScreen.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\steps\ApkInfoSteps.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\steps\AppConfigSteps.java
+C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\steps\SauceLabsCatalogSteps.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\steps\SauceLabsLoginSteps.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\stepsdefinitions\ApkInfoStepDefs.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\stepsdefinitions\AppConfigStepsDefs.java
+C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\stepsdefinitions\CarritoStepDefs.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\stepsdefinitions\SauceLabsStepDefs.java
 C:\Users\Maria\Desktop\automation-mobile-v2\src\test\java\com\nttdata\support\ScreenshotAttacher.java

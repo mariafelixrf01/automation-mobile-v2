@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
@@ -20,29 +21,14 @@ import java.util.Properties;
  * (es decir, crear y finalizar la sesion de Appium).
  * <p>
  * Esta clase NO conoce ningun elemento de UI (botones, campos, etc).
- * Eso es responsabilidad de cada Screen especifica de cada app
- * (por ejemplo {@code SauceLabsLoginScreen}).
+ * Eso es responsabilidad de cada Screen especifica de cada app.
  * <p>
  * Es GENERICA: sirve para levantar cualquier aplicacion Android.
- * Para automatizar una app nueva NO se modifica esta clase: solo se
- * crea un nuevo archivo {@code .properties} dentro de
- * {@code src/test/resources/config} con sus capabilities
- * (app, appPackage, appActivity, udid, etc.) y se indica su nombre
- * al llamar a {@link #iniciarAplicacion(String)}.
  */
 public class AppConfigScreen {
 
-    // El driver es estatico: solo existe UNA sesion de Appium activa
-    // a la vez, sin importar cuantas Screens se usen despues.
     private static AndroidDriver driver;
 
-    /**
-     * Levanta la aplicacion cuyas capabilities estan definidas en el
-     * archivo de configuracion indicado.
-     *
-     * @param archivoConfiguracion nombre del archivo .properties dentro de
-     *                              src/test/resources/config, ej: "saucelabs.properties"
-     */
     public void iniciarAplicacion(String archivoConfiguracion) {
 
         if (driver != null) {
@@ -61,17 +47,22 @@ public class AppConfigScreen {
             System.out.println("[AppConfigScreen] Conectando a Appium Server en: " + appiumUrl);
             driver = new AndroidDriver(new URL(appiumUrl), options);
 
-            System.out.println("[AppConfigScreen] Sesion Appium creada correctamente. SessionId: " + driver.getSessionId());
+            // Solución directa: Lanzar la actividad principal mediante ADB shell para evitar restricciones de Android 15
+            String appPackage = properties.getProperty("appPackage");
+            String appActivity = properties.getProperty("appActivity");
 
+            System.out.println("[AppConfigScreen] Iniciando actividad con ADB: " + appPackage + "/" + appActivity);
+            driver.executeScript("mobile: shell", Map.of(
+                    "command", "am",
+                    "args", List.of("start", "-n", appPackage + "/" + appActivity)
+            ));
+
+            System.out.println("[AppConfigScreen] Sesion Appium creada correctamente. SessionId: " + driver.getSessionId());
         } catch (MalformedURLException e) {
             throw new RuntimeException("[AppConfigScreen] URL de Appium invalida", e);
         }
     }
 
-    /**
-     * Entrega el driver de la sesion activa a cualquier Screen que
-     * necesite interactuar con la app (ej: SauceLabsLoginScreen).
-     */
     public static AndroidDriver getDriver() {
         if (driver == null) {
             throw new IllegalStateException(
@@ -82,12 +73,6 @@ public class AppConfigScreen {
         return driver;
     }
 
-    /**
-     * Cierra la aplicacion indicada por su appId (package) y finaliza
-     * la sesion de Appium.
-     *
-     * @param appId package de la app a cerrar, ej: "com.swaglabsmobileapp"
-     */
     public void cerrarAplicacion(String appId) {
 
         if (driver == null) {
@@ -117,10 +102,6 @@ public class AppConfigScreen {
         System.out.println("[AppConfigScreen] Tomando screenshot...");
         return driver.getScreenshotAs(OutputType.BYTES);
     }
-
-    // =========================================================
-    // Lectura de configuracion y construccion de capabilities
-    // =========================================================
 
     private Properties cargarPropiedades(String archivoConfiguracion) {
         Properties properties = new Properties();
@@ -153,14 +134,19 @@ public class AppConfigScreen {
         options.setPlatformVersion(obtenerObligatorio(properties, "platformVersion"));
         options.setApp(obtenerObligatorio(properties, "app"));
         options.setAppPackage(obtenerObligatorio(properties, "appPackage"));
-        options.setAppActivity(obtenerObligatorio(properties, "appActivity"));
-        options.setNoReset(Boolean.parseBoolean(properties.getProperty("noReset", "true")));
-        options.setAutoGrantPermissions(Boolean.parseBoolean(properties.getProperty("autoGrantPermissions", "true")));
 
-        options.setCapability("appium:forceAppLaunch", true);
-        options.setCapability("appium:settings[waitForIdleTimeout]", 1000);
+        if (properties.containsKey("appActivity")) {
+            options.setAppActivity(properties.getProperty("appActivity"));
+        }
+
+        // Evitamos que intente lanzar la actividad por ADB automáticamente al iniciar la sesión
+        options.setCapability("appium:noSign", true);
+        options.setCapability("appium:autoLaunch", false);
+
+        options.setNoReset(false);
+        options.setAutoGrantPermissions(true);
+        options.setCapability("appium:enforceAppInstall", true);
         options.setCapability("appium:disableWindowAnimation", true);
-        options.setCapability("appium:skipLogcatCapture", true);
 
         long timeoutSeconds = Long.parseLong(properties.getProperty("newCommandTimeoutSeconds", "300"));
         options.setNewCommandTimeout(Duration.ofSeconds(timeoutSeconds));
